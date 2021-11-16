@@ -21,13 +21,7 @@ const Question = ({
     const history = useHistory();
 
     const handleSelect = (i) => {
-        if (selected === i && selected === correct) {
-            return "select";
-        }
-        else if (selected === i && selected !== correct) {
-            return "wrong";
-        }
-        else if (i === correct) {
+        if (selected === i) {
             return "select";
         }
     };
@@ -45,8 +39,14 @@ const Question = ({
             setCurrQues(currQues + 1);
             setSelected();
         }
-        else {
-            setError('plaease select an option');
+    };
+
+    const handlePrevious = () => {
+        if (currQues > 8) {
+            history.push("/result")
+        } else if (selected) {
+            setCurrQues(currQues - 1);
+            setSelected();
         }
     };
 
@@ -68,13 +68,21 @@ const Question = ({
                                 onClick={() => { handleCheck(i) }}
                                 className={`singleOption ${selected && handleSelect(i)}`}
                                 key={i}
-                                disabled={selected}
                             >
                                 {i}
                             </button>
                         ))}
                 </div>
                 <div className="controls">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        style={{ width: 185 }}
+                        onClick={handlePrevious}
+                    >
+                        Previous Question
+                    </Button>
                     <Button
                         variant="contained"
                         color="secondary"
